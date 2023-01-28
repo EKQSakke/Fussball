@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://bo6lwvfu24djc"]
+
+[ext_resource type="Script" path="res://Player.cs" id="1_wyxbh"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ddwul"]
+bounce = 0.4
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_6yuyw"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_adsoo"]
+
+[node name="Player" type="RigidBody3D"]
+mass = 5.0
+physics_material_override = SubResource("PhysicsMaterial_ddwul")
+can_sleep = false
+lock_rotation = true
+script = ExtResource("1_wyxbh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_6yuyw")
+
+[node name="PlayerMesh" type="MeshInstance3D" parent="CollisionShape3D"]
+mesh = SubResource("CapsuleMesh_adsoo")
+skeleton = NodePath("../..")
