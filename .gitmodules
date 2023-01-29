@@ -1,0 +1,3 @@
+[submodule "nidots"]
+	path = Nidot
+	url = https://github.com/EKQSakke/Nidot
