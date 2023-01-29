@@ -1,7 +1,7 @@
 # TODO: 
 
 ### Create capsule with physics
-    - Drag mouse from capsule to direction to calculate impulse force vector, applied on release
+    - Drag mouse from capsule to direction to ✔️calculate impulse force vector, applied on release
     - Capsule needs to bounce from walls 
     - Allow multiple characters per player (3 to start)
 
