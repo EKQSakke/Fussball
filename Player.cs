@@ -5,7 +5,6 @@ using Nidot;
 public partial class Player :  RigidBody3D
 {
 	Node2D mousePosition;
-
 	MeshInstance3D rayMesh;
 	Camera3D cam;
 
