@@ -19,6 +19,7 @@ data = PackedVector3Array(-0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0
 [node name="Node3D" type="Node3D"]
 
 [node name="Floor" type="MeshInstance3D" parent="."]
+transform = Transform3D(2.93373, 0, 0, 0, 1, 0, 0, 0, 4.46777, 0, 0, 0)
 material_override = SubResource("StandardMaterial3D_pc2i4")
 mesh = SubResource("PlaneMesh_367c1")
 
@@ -28,6 +29,9 @@ mesh = SubResource("PlaneMesh_367c1")
 shape = SubResource("ConcavePolygonShape3D_1vyh1")
 
 [node name="Player" parent="." instance=ExtResource("1_dmc8x")]
+
+[node name="Player2" parent="." instance=ExtResource("1_dmc8x")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.39292, 0, 0)
 
 [node name="Wall" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 4.59321, 8.59598, 0.509073, 0)
