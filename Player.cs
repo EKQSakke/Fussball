@@ -1,3 +1,4 @@
+using System;
 using Godot;
 using Nidot;
 
@@ -21,10 +22,10 @@ public partial class Player :  RigidBody3D
 	{
 		if (@event.IsActionPressed("Fire"))
 		{
-			isTargeting = true;
-			DrawTools.DrawRay(rayMesh, GlobalPosition, (Vector3)GetFloorPosition());
+			// Check if initial click is on top of the player
+			isTargeting = ClickOnPlayer();
 		}
-		if (@event.IsActionReleased("Fire"))
+		if (@event.IsActionReleased("Fire") && isTargeting)
 		{
 			isTargeting = false;
 			var floorPos = GetFloorPosition();
@@ -33,16 +34,24 @@ public partial class Player :  RigidBody3D
 				GD.Print(GlobalPosition);
 				ApplyCentralImpulse((GlobalPosition - (Vector3)GetFloorPosition()) * 10);
 			}
+			rayMesh.Mesh = null;
 		}
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
-	{
-
+    {
+        Target();
 	}
 
-	Vector3? GetFloorPosition()
+    private void Target()
+    {
+		if (!isTargeting) return;
+
+		DrawTools.DrawRay(rayMesh, GlobalPosition, (Vector3)GetFloorPosition());
+    }
+
+    Vector3? GetFloorPosition()
 	{
 		var screenPos = mousePosition.GetGlobalMousePosition();
         var worldPos = cam.ProjectPosition(screenPos, 1000);
@@ -57,5 +66,23 @@ public partial class Player :  RigidBody3D
             return null;
 
         return (Vector3) position + new Vector3(0, .1f, 0);
+	}
+
+	bool ClickOnPlayer()
+	{
+		var screenPos = mousePosition.GetGlobalMousePosition();
+        var worldPos = cam.ProjectPosition(screenPos, 1000);
+        var spaceState = GetWorld3D().DirectSpaceState;
+        var parameters = new PhysicsRayQueryParameters3D()
+        {
+            From = cam.GlobalPosition,
+            To = worldPos,
+        };
+
+        var result = spaceState.IntersectRay(parameters);
+        if (!result.TryGetValue("rid", out var rid))
+			return false;
+			
+		return (Rid)rid == this.GetRid();
 	}
 }
