@@ -9,8 +9,6 @@ public partial class Networker : Node
 	[Export] PackedScene player;
 	Node networked;
 
-	Node playerNode;
-
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -38,7 +36,7 @@ public partial class Networker : Node
         GD.Print($"{id} connected");
         var newPlayerNode = player.Instantiate();
 		// long to int fine?
-		newPlayerNode.SetMultiplayerAuthority((int)id);
+		newPlayerNode.TreeEntered += () => newPlayerNode.SetMultiplayerAuthority((int)id);
         networked.AddChild(newPlayerNode, true);
     }
 }

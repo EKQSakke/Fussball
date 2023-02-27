@@ -7,6 +7,7 @@ public partial class Player :  RigidBody3D
 	Node2D mousePosition;
 	MeshInstance3D rayMesh;
 	Camera3D cam;
+	MultiplayerSynchronizer sync;
 
 	bool isTargeting;
 	// Called when the node enters the scene tree for the first time.
@@ -15,10 +16,13 @@ public partial class Player :  RigidBody3D
 		mousePosition = this.AddChildOfType<Node2D>();
 		cam = this.GetNodeFromAll<Camera3D>();
 		rayMesh = this.AddChildOfType<MeshInstance3D>();
+		sync = this.GetChildOfType<MultiplayerSynchronizer>();
 	}
 
 	public override void _UnhandledInput(InputEvent @event)
 	{
+
+
 		if (@event.IsActionPressed("Fire"))
 		{
 			// Check if initial click is on top of the player
