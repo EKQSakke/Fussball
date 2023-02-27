@@ -8,7 +8,8 @@
 ### Networking
 - ️️✔️Host can create session
 - ✔️Client can connect to session with IP
-- Both players can apply force ONLY to their own "players"
+- ✔️Both players can apply force ONLY to their own "players"
+- Multiple networked players per client
 
 ### Game
 - Starts when client is connected  
