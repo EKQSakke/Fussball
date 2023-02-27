@@ -12,7 +12,7 @@ public partial class Networker : Node
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		networked = GetNode("MultiplayerSpawner");
+		networked = this.GetNodeFromAll<MultiplayerSpawner>();
 	}
 
 	public void CreateServer()
@@ -31,12 +31,23 @@ public partial class Networker : Node
 		Multiplayer.MultiplayerPeer = peer;
 	}
 
+	public void SetAuthorities()
+	{
+		var players = networked.GetChildren().OfType<Player>();
+		foreach (var player in players)
+		{
+			player.SetMultiplayerAuthority((int)player.PlayerId);
+		}
+	}
+
 	void OnPlayerConnected(long id)
     {
         GD.Print($"{id} connected");
         var newPlayerNode = player.Instantiate();
-		// long to int fine?
-		newPlayerNode.TreeEntered += () => newPlayerNode.SetMultiplayerAuthority((int)id);
+		
+		var playerNode = newPlayerNode as Player ?? throw new System.Exception("playerNode must be a Player");
+		playerNode.PlayerId = id;
+
         networked.AddChild(newPlayerNode, true);
     }
 }

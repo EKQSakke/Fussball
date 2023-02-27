@@ -68,5 +68,13 @@ offset_bottom = 72.0
 text = "Client
 "
 
+[node name="Set Auths" type="Button" parent="Node2D"]
+offset_left = 98.0
+offset_top = 6.0
+offset_right = 183.0
+offset_bottom = 37.0
+text = "Sync"
+
 [connection signal="pressed" from="Node2D/Host Button" to="." method="CreateServer"]
 [connection signal="pressed" from="Node2D/Client Button" to="." method="JoinServer"]
+[connection signal="pressed" from="Node2D/Set Auths" to="." method="SetAuthorities"]
