@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://bo6lwvfu24djc"]
+[gd_scene load_steps=6 format=3 uid="uid://bo6lwvfu24djc"]
 
 [ext_resource type="Script" path="res://Player.cs" id="1_wyxbh"]
 
@@ -8,6 +8,11 @@ bounce = 0.4
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_6yuyw"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_adsoo"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_43jpd"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/sync = true
 
 [node name="Player" type="RigidBody3D"]
 mass = 5.0
@@ -23,3 +28,6 @@ shape = SubResource("CapsuleShape3D_6yuyw")
 [node name="PlayerMesh" type="MeshInstance3D" parent="CollisionShape3D"]
 mesh = SubResource("CapsuleMesh_adsoo")
 skeleton = NodePath("../..")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_43jpd")
