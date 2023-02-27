@@ -1,3 +1,4 @@
+using System.Security.AccessControl;
 using Godot;
 using Nidot;
 
@@ -26,12 +27,10 @@ public partial class PlayerInput : Node
 
 	public override void _UnhandledInput(InputEvent @event)
 	{
+		if (!hasAuthority) return;
 
 		if (@event.IsActionPressed("Fire"))
 		{
-			
-			GD.Print($"{player.PlayerId} {Multiplayer.GetUniqueId()} {GetMultiplayerAuthority()} hasAuthority: {hasAuthority}");
-			if (!hasAuthority) return;
 			// Check if initial click is on top of the player
 			isTargeting = ClickOnPlayer();
 		}
@@ -41,10 +40,21 @@ public partial class PlayerInput : Node
 			var floorPos = GetFloorPosition();
 			if (floorPos != null)
 			{
-				player.ApplyCentralImpulse((player.GlobalPosition - (Vector3)GetFloorPosition()) * 10);
+				var force = (player.GlobalPosition - (Vector3)GetFloorPosition()) * 10;
+				if (Multiplayer.IsServer())
+					Launch(force);
+				else
+					Rpc("Launch", force);
 			}
 			rayMesh.Mesh = null;
 		}
+	}
+
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer)]
+	public void Launch(Vector3 force) 
+	{
+		GD.Print($"Launching {player.PlayerId}");
+		player.ApplyCentralImpulse(force);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

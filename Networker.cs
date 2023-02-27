@@ -31,15 +31,6 @@ public partial class Networker : Node
 		Multiplayer.MultiplayerPeer = peer;
 	}
 
-	public void SetAuthorities()
-	{
-		var players = networked.GetChildren().OfType<Player>();
-		foreach (var player in players)
-		{
-			player.SetMultiplayerAuthority((int)player.PlayerId);
-		}
-	}
-
 	void OnPlayerConnected(long id)
     {
         GD.Print($"{id} connected");

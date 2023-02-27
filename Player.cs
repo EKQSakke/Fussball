@@ -15,8 +15,7 @@ public partial class Player : RigidBody3D
     public void SetId(long id)
     {
         PlayerId = id;
-        SetMultiplayerAuthority((int)id); 
     }
 
-    
+
 }
