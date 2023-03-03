@@ -16,17 +16,17 @@
 - Command time (players can input command)
 - Act time (commands input are applied)
 - Goals:
-    - Score is counted
-    - Players reset position
-    - Ball reset
+	- Score is counted
+	- Players reset position
+	- Ball reset
 - Game loop:
-    - 3 goals reset game
-    - Turn limit
+	- 3 goals reset game
+	- Turn limit
 
 ### Lobby
 - Options:
-    - Target score count 
-    - Turn limit
+	- Target score count 
+	- Turn limit
 
 ### Presentation:
 - Graphics for capsule
