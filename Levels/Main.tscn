@@ -21,6 +21,7 @@ data = PackedVector3Array(-0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0
 [sub_resource type="PlaneMesh" id="PlaneMesh_8lc3x"]
 
 [node name="Node3D" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.406122, 1.43853, -1.84689)
 script = ExtResource("1_x6lk7")
 player = ExtResource("1_dmc8x")
 
@@ -53,23 +54,6 @@ transform = Transform3D(0.392739, -0.755829, 0.523907, 1.77636e-15, 0.569681, 0.
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://Player.tscn")
 spawn_path = NodePath(".")
-
-[node name="Node2D" type="Node2D" parent="."]
-
-[node name="Host Button" type="Button" parent="Node2D"]
-offset_left = 5.0
-offset_top = 6.0
-offset_right = 90.0
-offset_bottom = 17.0
-text = "Host"
-
-[node name="Client Button" type="Button" parent="Node2D"]
-offset_left = 5.0
-offset_top = 41.0
-offset_right = 90.0
-offset_bottom = 72.0
-text = "Client
-"
 
 [node name="SpawnPoints" type="Node" parent="."]
 
@@ -111,6 +95,3 @@ mesh = SubResource("PlaneMesh_8lc3x")
 skeleton = NodePath("../..")
 script = ExtResource("3_4b148")
 TeamId = 1
-
-[connection signal="pressed" from="Node2D/Host Button" to="." method="CreateServer"]
-[connection signal="pressed" from="Node2D/Client Button" to="." method="JoinServer"]

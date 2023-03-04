@@ -1,0 +1,45 @@
+[gd_scene load_steps=3 format=3 uid="uid://cp6qpe1jxirf3"]
+
+[ext_resource type="Script" path="res://Lobby.cs" id="1_secjc"]
+[ext_resource type="PackedScene" uid="uid://bocp6ig7vo7fc" path="res://LobbyPlayer.tscn" id="2_v07ig"]
+
+[node name="Lobby" type="Node" node_paths=PackedStringArray("lobbyLabel")]
+script = ExtResource("1_secjc")
+hostClientContainer = NodePath("CenterContainer/VBoxContainer/HostClientContainer")
+lobbyLabel = NodePath("CenterContainer/VBoxContainer/LobbyLabel")
+lobbyPlayer = ExtResource("2_v07ig")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+
+[node name="HostClientContainer" type="VBoxContainer" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+
+[node name="Host Button" type="Button" parent="CenterContainer/VBoxContainer/HostClientContainer"]
+layout_mode = 2
+text = "Host"
+
+[node name="Client Button" type="Button" parent="CenterContainer/VBoxContainer/HostClientContainer"]
+layout_mode = 2
+text = "Client
+"
+
+[node name="LobbyLabel" type="Label" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Connected players: "
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://LobbyPlayer.tscn")
+spawn_path = NodePath(".")
+
+[connection signal="pressed" from="CenterContainer/VBoxContainer/HostClientContainer/Host Button" to="." method="CreateServer"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/HostClientContainer/Client Button" to="." method="JoinServer"]

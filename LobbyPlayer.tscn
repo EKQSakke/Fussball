@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://bocp6ig7vo7fc"]
+
+[ext_resource type="Script" path="res://LobbyPlayer.cs" id="1_s5nbl"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_k7e5h"]
+properties/0/path = NodePath(".:PlayerId")
+properties/0/spawn = true
+properties/0/sync = true
+
+[node name="LobbyPlayer" type="Node"]
+script = ExtResource("1_s5nbl")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_k7e5h")
