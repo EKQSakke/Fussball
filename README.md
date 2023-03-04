@@ -12,12 +12,13 @@
 - ✔️Multiple networked players per client
 
 ### Lobby
+- ✔️Players appear
 - Options:
 	- Target score count 
 	- Turn limit
+- Load game from lobby
 	
 ### GAME LOOP
-- Starts when client is connected  
 - Command time (players can input command)
 - Act time (commands input are applied)
 - Goals:
