@@ -9,9 +9,14 @@
 - ️️✔️Host can create session
 - ✔️Client can connect to session with IP
 - ✔️Both players can apply force ONLY to their own "players"
-- Multiple networked players per client
+- ✔️Multiple networked players per client
 
-### Game
+### Lobby
+- Options:
+	- Target score count 
+	- Turn limit
+	
+### GAME LOOP
 - Starts when client is connected  
 - Command time (players can input command)
 - Act time (commands input are applied)
@@ -23,13 +28,9 @@
 	- 3 goals reset game
 	- Turn limit
 
-### Lobby
-- Options:
-	- Target score count 
-	- Turn limit
 
 ### Presentation:
-- Graphics for capsule
+- Graphics for capsule (2 teams)
 - Graphics for arena
 - UI elements
 - Menus

@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://dtf3sfkwlova1"]
+[gd_scene load_steps=10 format=3 uid="uid://dtf3sfkwlova1"]
 
 [ext_resource type="PackedScene" uid="uid://bo6lwvfu24djc" path="res://Player.tscn" id="1_dmc8x"]
 [ext_resource type="Script" path="res://Networker.cs" id="1_x6lk7"]
+[ext_resource type="Script" path="res://SpawnPoint.cs" id="3_4b148"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pc2i4"]
 albedo_color = Color(0.258824, 0.388235, 0.298039, 1)
@@ -16,6 +17,8 @@ data = PackedVector3Array(15, 0, 5, -15, 0, 5, 15, 0, -5, -15, 0, 5, -15, 0, -5,
 
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_0larn"]
 data = PackedVector3Array(-0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, -0.5)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_8lc3x"]
 
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_x6lk7")
@@ -67,6 +70,47 @@ offset_right = 90.0
 offset_bottom = 72.0
 text = "Client
 "
+
+[node name="SpawnPoints" type="Node" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SpawnPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.34866, 0.0265913, 0)
+mesh = SubResource("PlaneMesh_8lc3x")
+skeleton = NodePath("../..")
+script = ExtResource("3_4b148")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="SpawnPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.3686, 0.0265913, -3.25211)
+mesh = SubResource("PlaneMesh_8lc3x")
+skeleton = NodePath("../..")
+script = ExtResource("3_4b148")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="SpawnPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.05828, 0.0265903, 4.04261)
+mesh = SubResource("PlaneMesh_8lc3x")
+skeleton = NodePath("../..")
+script = ExtResource("3_4b148")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="SpawnPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.30173, 0.0265903, -3.11256)
+mesh = SubResource("PlaneMesh_8lc3x")
+skeleton = NodePath("../..")
+script = ExtResource("3_4b148")
+TeamId = 1
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="SpawnPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.65015, 0.0265894, 0.0518227)
+mesh = SubResource("PlaneMesh_8lc3x")
+skeleton = NodePath("../..")
+script = ExtResource("3_4b148")
+TeamId = 1
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="SpawnPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.25781, 0.0265894, 3.74273)
+mesh = SubResource("PlaneMesh_8lc3x")
+skeleton = NodePath("../..")
+script = ExtResource("3_4b148")
+TeamId = 1
 
 [connection signal="pressed" from="Node2D/Host Button" to="." method="CreateServer"]
 [connection signal="pressed" from="Node2D/Client Button" to="." method="JoinServer"]
