@@ -1,4 +1,6 @@
 public enum Game
 {
-    Default
+    Default,
+    Short,
+    Long,
 }
