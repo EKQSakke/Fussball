@@ -1,13 +1,11 @@
-using System.Reflection.Metadata;
-using System;
 using System.Collections.Generic;
 using Godot;
 using Nidot;
 
 public partial class Lobby : Node
 {
-	const int PORT = 9999;
-	const string ADDRESS = "127.0.0.1";
+    const int PORT = 9999;
+    const string ADDRESS = "127.0.0.1";
 
     List<long> teamIds = new();
 
@@ -22,9 +20,12 @@ public partial class Lobby : Node
 
     MultiplayerSpawner lobbyPlayerSpawner;
 
+    GameSettings gameSettings;
+
     public override void _Ready()
     {
         lobbyPlayerSpawner = this.GetChildOfType<MultiplayerSpawner>();
+        gameSettings = new GameSettings(Game.Default);
     }
 
     public override void _Process(double delta)
@@ -37,22 +38,22 @@ public partial class Lobby : Node
     }
 
     public void CreateServer()
-	{
-		var peer = new ENetMultiplayerPeer();
-		peer.PeerConnected += OnPlayerConnected;
-		peer.CreateServer(PORT);
-		Multiplayer.MultiplayerPeer = peer;
+    {
+        var peer = new ENetMultiplayerPeer();
+        peer.PeerConnected += OnPlayerConnected;
+        peer.CreateServer(PORT);
+        Multiplayer.MultiplayerPeer = peer;
         OnPlayerConnected(1);
         this.GetNode(hostClientContainer).QueueFree();
-	}
+    }
 
     public void JoinServer()
-	{
-		var peer = new ENetMultiplayerPeer();
+    {
+        var peer = new ENetMultiplayerPeer();
         _ = peer.CreateClient(ADDRESS, PORT);
-		Multiplayer.MultiplayerPeer = peer;
+        Multiplayer.MultiplayerPeer = peer;
         this.GetNode(hostClientContainer).QueueFree();
-	}
+    }
 
     private void OnPlayerConnected(long id)
     {
