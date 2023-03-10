@@ -16,7 +16,15 @@ internal class GameSettings
         {
             case Game.Default:
                 SetDefaults();
-                return;
+                break;
+            case Game.Short:
+                RoundLimit = 10;
+                GoalLimit = 1;
+                break;
+            case Game.Long:
+                RoundLimit = 100;
+                GoalLimit = 7;
+                break;
         }
     }
 
