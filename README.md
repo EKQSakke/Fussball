@@ -17,7 +17,7 @@
 	- ✔️Target score count 
 	- ✔️Turn limit
 - ✔️Load game from lobby
-- Get back to lobby 
+- ✔️Get back to lobby 
 	
 ### GAME LOOP
 - Command time (players can input command)

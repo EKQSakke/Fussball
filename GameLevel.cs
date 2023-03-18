@@ -10,12 +10,13 @@ public partial class GameLevel : Node
 
     Dictionary<int, long> playerTeamIds = new();
     PlayerPositioner playerPositioner = new();
+    Lobby lobby;
 
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        var lobby = this.GetNodeFromAll<Lobby>();
+        lobby = this.GetNodeFromAll<Lobby>();
         networked = this.GetNodeFromChildren<MultiplayerSpawner>();
         playerPositioner.AddSpawnPoints(GetNode("SpawnPoints").GetNodesOfType<SpawnPoint>());
 
@@ -32,6 +33,22 @@ public partial class GameLevel : Node
         {
             lobby.SetGameMenuVisible(false);
         }
+    }
+
+    public void EndLevel()
+    {
+        if (Multiplayer.IsServer())
+        {
+            lobby.SetGameMenuVisible(true);
+            Rpc("ShowMenu");
+            this.QueueFree();
+        }
+    }
+
+    [Rpc(MultiplayerApi.RpcMode.AnyPeer)]
+    public void ShowMenu()
+    {
+        lobby.SetGameMenuVisible(true);
     }
 
 

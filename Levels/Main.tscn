@@ -95,3 +95,12 @@ mesh = SubResource("PlaneMesh_8lc3x")
 skeleton = NodePath("../..")
 script = ExtResource("3_4b148")
 TeamId = 1
+
+[node name="Button" type="Button" parent="."]
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 13.0
+offset_bottom = 13.0
+text = "Exit"
+
+[connection signal="pressed" from="Button" to="." method="EndLevel"]
