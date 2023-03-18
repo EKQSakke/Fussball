@@ -13,27 +13,45 @@ public partial class Lobby : Node
     NodePath hostClientContainer;
 
     [Export]
+    NodePath gameSettingsSelection;
+
+    [Export]
     Label lobbyLabel;
 
     [Export]
     PackedScene lobbyPlayer;
 
-    MultiplayerSpawner lobbyPlayerSpawner;
+    [Export] PackedScene gameLevel;
+
+    [Export] NodePath startGameButton;
+
+    [Export] NodePath lobbyMenu;
+
+    MultiplayerSpawner multiplayerSpawner;
 
     GameSettings gameSettings;
 
+    Control gameMenu;
+
     public override void _Ready()
     {
-        lobbyPlayerSpawner = this.GetChildOfType<MultiplayerSpawner>();
-        gameSettings = new GameSettings(Game.Default);
+        multiplayerSpawner = this.GetChildOfType<MultiplayerSpawner>();
+        gameSettings = new GameSettings();
+        gameMenu = GetNode<Control>(lobbyMenu);
     }
 
     public override void _Process(double delta)
     {
-        lobbyLabel.Text = "Players: \n";
-        foreach (var item in lobbyPlayerSpawner.GetChildren())
+        if (gameMenu.Visible)
         {
-            lobbyLabel.Text += ((LobbyPlayer)item).PlayerId + "\n";
+            lobbyLabel.Text = "Players: \n";
+            foreach (var item in multiplayerSpawner.GetChildren())
+            {
+                if (item is LobbyPlayer lobbyItem)
+                {
+                    lobbyLabel.Text += lobbyItem.PlayerId + "\n";
+                }
+            }
         }
     }
 
@@ -44,7 +62,12 @@ public partial class Lobby : Node
         peer.CreateServer(PORT);
         Multiplayer.MultiplayerPeer = peer;
         OnPlayerConnected(1);
-        this.GetNode(hostClientContainer).QueueFree();
+        GetNode(hostClientContainer).QueueFree();
+
+        var gameSettingsOptions = GetNode<ItemList>(gameSettingsSelection);
+        gameSettingsOptions.Show();
+        gameSettingsOptions.Select(0);
+        GetNode<Button>(startGameButton).Show();
     }
 
     public void JoinServer()
@@ -52,7 +75,31 @@ public partial class Lobby : Node
         var peer = new ENetMultiplayerPeer();
         _ = peer.CreateClient(ADDRESS, PORT);
         Multiplayer.MultiplayerPeer = peer;
-        this.GetNode(hostClientContainer).QueueFree();
+        GetNode(hostClientContainer).QueueFree();
+    }
+
+    public void SelectGameSettings(int id)
+    {
+        gameSettings = new GameSettings((Game)id);
+    }
+
+    public void StartGame()
+    {
+        GetNode<Control>(lobbyMenu).Hide();
+        var level = gameLevel.Instantiate();
+        multiplayerSpawner.AddChild(level, true);
+    }
+
+    public void SetGameMenuVisible(bool value)
+    {
+        if (value)
+        {
+            gameMenu.Show();
+        }
+        else
+        {
+            gameMenu.Hide();
+        }
     }
 
     private void OnPlayerConnected(long id)
@@ -61,6 +108,6 @@ public partial class Lobby : Node
         var newPlayerNode = lobbyPlayer.Instantiate();
         var playerNode = newPlayerNode as LobbyPlayer ?? throw new System.Exception("playerNode must be a LobbyPlayer");
         playerNode.PlayerId = id;
-        lobbyPlayerSpawner.AddChild(playerNode, true);
+        multiplayerSpawner.AddChild(playerNode, true);
     }
 }

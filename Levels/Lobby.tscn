@@ -1,13 +1,18 @@
-[gd_scene load_steps=3 format=3 uid="uid://cp6qpe1jxirf3"]
+[gd_scene load_steps=4 format=3 uid="uid://cp6qpe1jxirf3"]
 
 [ext_resource type="Script" path="res://Lobby.cs" id="1_secjc"]
 [ext_resource type="PackedScene" uid="uid://bocp6ig7vo7fc" path="res://LobbyPlayer.tscn" id="2_v07ig"]
+[ext_resource type="PackedScene" uid="uid://dtf3sfkwlova1" path="res://Levels/Main.tscn" id="3_5ebu6"]
 
 [node name="Lobby" type="Node" node_paths=PackedStringArray("lobbyLabel")]
 script = ExtResource("1_secjc")
 hostClientContainer = NodePath("CenterContainer/VBoxContainer/HostClientContainer")
+gameSettingsSelection = NodePath("CenterContainer/VBoxContainer/GameSettings")
 lobbyLabel = NodePath("CenterContainer/VBoxContainer/LobbyLabel")
 lobbyPlayer = ExtResource("2_v07ig")
+gameLevel = ExtResource("3_5ebu6")
+startGameButton = NodePath("CenterContainer/VBoxContainer/StartGame")
+lobbyMenu = NodePath("CenterContainer")
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 anchors_preset = 15
@@ -37,9 +42,26 @@ text = "Client
 layout_mode = 2
 text = "Connected players: "
 
+[node name="GameSettings" type="ItemList" parent="CenterContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+auto_height = true
+item_count = 3
+item_0/text = "Default"
+item_1/text = "Short"
+item_2/text = "Long"
+
+[node name="StartGame" type="Button" parent="CenterContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+text = "Start Game
+"
+
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("res://LobbyPlayer.tscn")
+_spawnable_scenes = PackedStringArray("res://LobbyPlayer.tscn", "res://Levels/Main.tscn")
 spawn_path = NodePath(".")
 
 [connection signal="pressed" from="CenterContainer/VBoxContainer/HostClientContainer/Host Button" to="." method="CreateServer"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/HostClientContainer/Client Button" to="." method="JoinServer"]
+[connection signal="item_selected" from="CenterContainer/VBoxContainer/GameSettings" to="." method="SelectGameSettings"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/StartGame" to="." method="StartGame"]

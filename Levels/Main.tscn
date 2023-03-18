@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://dtf3sfkwlova1"]
 
 [ext_resource type="PackedScene" uid="uid://bo6lwvfu24djc" path="res://Player.tscn" id="1_dmc8x"]
-[ext_resource type="Script" path="res://Networker.cs" id="1_x6lk7"]
+[ext_resource type="Script" path="res://GameLevel.cs" id="1_rx4bq"]
 [ext_resource type="Script" path="res://SpawnPoint.cs" id="3_4b148"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pc2i4"]
@@ -22,7 +22,7 @@ data = PackedVector3Array(-0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0
 
 [node name="Node3D" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.406122, 1.43853, -1.84689)
-script = ExtResource("1_x6lk7")
+script = ExtResource("1_rx4bq")
 player = ExtResource("1_dmc8x")
 
 [node name="Floor" type="MeshInstance3D" parent="."]

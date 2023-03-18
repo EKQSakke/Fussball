@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Godot;
 using Nidot;
 
-public partial class Networker : Node
+public partial class GameLevel : Node
 {
 
     [Export] PackedScene player;
@@ -16,14 +16,28 @@ public partial class Networker : Node
     public override void _Ready()
     {
         var lobby = this.GetNodeFromAll<Lobby>();
-        networked = this.GetNodeFromAll<MultiplayerSpawner>();
+        networked = this.GetNodeFromChildren<MultiplayerSpawner>();
         playerPositioner.AddSpawnPoints(GetNode("SpawnPoints").GetNodesOfType<SpawnPoint>());
+
+        if (Multiplayer.IsServer())
+        {
+            // Server team
+            SpawnTeam(1);
+            foreach (var item in Multiplayer.GetPeers())
+            {
+                SpawnTeam(item);
+            }
+        }
+        else
+        {
+            lobby.SetGameMenuVisible(false);
+        }
     }
 
 
     public void SpawnTeam(long id)
     {
-        GD.Print($"{id} connected");
+        GD.Print($"SpawnTeam {id}");
 
         var teamId = playerTeamIds.Count;
         playerTeamIds.Add(playerTeamIds.Count, id);
@@ -32,9 +46,9 @@ public partial class Networker : Node
         {
             var newPlayerNode = player.Instantiate();
             var playerNode = newPlayerNode as Player ?? throw new System.Exception("playerNode must be a Player");
-            playerNode.GlobalPosition = playerPositioner.GetNextSpawnPointForTeam(teamId);
             playerNode.PlayerId = id;
             networked.AddChild(newPlayerNode, true);
+            playerNode.GlobalPosition = playerPositioner.GetNextSpawnPointForTeam(teamId);
         }
     }
 }
