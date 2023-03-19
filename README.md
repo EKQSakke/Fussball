@@ -20,8 +20,10 @@
 - ✔️Get back to lobby 
 	
 ### GAME LOOP
-- Command time (players can input command)
-- Act time (commands input are applied)
+- ✔️Command time (players can input command)
+	- ✔️Ready checks
+	- ✔️Timers
+- ✔️Act time (commands input are applied, not able to add more commands)
 - Goals:
 	- Score is counted
 	- Players reset position

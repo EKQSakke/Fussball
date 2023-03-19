@@ -1,4 +1,3 @@
-using System.Security.AccessControl;
 using Godot;
 using Nidot;
 
@@ -9,7 +8,8 @@ public partial class PlayerInput : Node
 	MeshInstance3D rayMesh;
 	Camera3D cam;
 	MultiplayerSynchronizer sync;
-	 
+	GameLevel level;
+
 	bool isTargeting;
 
 	bool hasAuthority;
@@ -22,12 +22,14 @@ public partial class PlayerInput : Node
 		cam = this.GetNodeFromAll<Camera3D>();
 		rayMesh = this.AddChildOfType<MeshInstance3D>();
 		sync = player.GetChildOfType<MultiplayerSynchronizer>();
+		level = this.GetNodeFromAll<GameLevel>();
 		hasAuthority = player.PlayerId == Multiplayer.GetUniqueId();
 	}
 
 	public override void _UnhandledInput(InputEvent @event)
 	{
-		if (!hasAuthority) return;
+		if (!hasAuthority || level.CurrentGameState is GameLevel.GameState.Act || level.IsTeamReady())
+			return;
 
 		if (@event.IsActionPressed("Fire"))
 		{
@@ -40,7 +42,7 @@ public partial class PlayerInput : Node
 			var floorPos = GetFloorPosition();
 			if (floorPos != null)
 			{
-				var force = (player.GlobalPosition - (Vector3)GetFloorPosition()) * 10;
+				var force = (player.GlobalPosition - (Vector3)floorPos) * 10;
 				if (Multiplayer.IsServer())
 					Launch(force);
 				else
@@ -53,8 +55,8 @@ public partial class PlayerInput : Node
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer)]
 	public void Launch(Vector3 force) 
 	{
-		GD.Print($"Launching {player.PlayerId}");
-		player.ApplyCentralImpulse(force);
+		GD.Print($"Set force {force.X}, {force.Y}, {force.Z} to {player.PlayerId}");
+		player.LaunchCommand = force;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -66,7 +68,6 @@ public partial class PlayerInput : Node
     private void Target()
     {
 		if (!isTargeting) return;
-
 
 		DrawTools.DrawRay(rayMesh, player.GlobalPosition, (Vector3)GetFloorPosition());
     }

@@ -9,6 +9,10 @@ public partial class Player : RigidBody3D
     Label idLabel;
     Camera3D cam;
 
+    [Export]
+    public Vector3 LaunchCommand;
+
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
@@ -26,6 +30,12 @@ public partial class Player : RigidBody3D
     public override void _Process(double delta)
     {
         idLabel.GlobalPosition = cam.UnprojectPosition(GlobalPosition);
+    }
+
+    public void ApplyCommand()
+    {
+        ApplyCentralImpulse(LaunchCommand);
+        LaunchCommand = new Vector3();
     }
 
 }

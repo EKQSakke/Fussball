@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dtf3sfkwlova1"]
+[gd_scene load_steps=9 format=3 uid="uid://dtf3sfkwlova1"]
 
 [ext_resource type="PackedScene" uid="uid://bo6lwvfu24djc" path="res://Player.tscn" id="1_dmc8x"]
 [ext_resource type="Script" path="res://GameLevel.cs" id="1_rx4bq"]
@@ -13,12 +13,15 @@ size = Vector2(30, 10)
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_1vyh1"]
 data = PackedVector3Array(15, 0, 5, -15, 0, 5, 15, 0, -5, -15, 0, 5, -15, 0, -5, 15, 0, -5)
 
-[sub_resource type="BoxMesh" id="BoxMesh_kterq"]
-
-[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_0larn"]
-data = PackedVector3Array(-0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, -0.5)
-
 [sub_resource type="PlaneMesh" id="PlaneMesh_8lc3x"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ijbur"]
+properties/0/path = NodePath(".:currentTimer")
+properties/0/spawn = true
+properties/0/sync = true
+properties/1/path = NodePath(".:CurrentGameState")
+properties/1/spawn = true
+properties/1/sync = true
 
 [node name="Node3D" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.406122, 1.43853, -1.84689)
@@ -34,15 +37,6 @@ mesh = SubResource("PlaneMesh_367c1")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Floor/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_1vyh1")
-
-[node name="Wall" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 4.59321, 8.59598, 0.509073, 0)
-mesh = SubResource("BoxMesh_kterq")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="Wall"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Wall/StaticBody3D"]
-shape = SubResource("ConcavePolygonShape3D_0larn")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.802859, 0.596169, 0, -0.596169, 0.802859, 1.90735e-06, 9.20955, 9.81606)
@@ -96,11 +90,29 @@ skeleton = NodePath("../..")
 script = ExtResource("3_4b148")
 TeamId = 1
 
-[node name="Button" type="Button" parent="."]
+[node name="Exit" type="Button" parent="."]
 offset_left = 5.0
 offset_top = 5.0
 offset_right = 13.0
 offset_bottom = 13.0
 text = "Exit"
 
-[connection signal="pressed" from="Button" to="." method="EndLevel"]
+[node name="Ready" type="Button" parent="."]
+offset_left = 5.0
+offset_top = 41.0
+offset_right = 42.0
+offset_bottom = 72.0
+text = "Ready"
+
+[node name="GameState" type="Label" parent="."]
+offset_left = 9.0
+offset_top = 79.0
+offset_right = 49.0
+offset_bottom = 102.0
+text = "GameState"
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_ijbur")
+
+[connection signal="pressed" from="Exit" to="." method="EndLevel"]
+[connection signal="pressed" from="Ready" to="." method="SetTeamReady"]
