@@ -1,15 +1,15 @@
 [gd_scene load_steps=4 format=3 uid="uid://cp6qpe1jxirf3"]
 
-[ext_resource type="Script" path="res://Lobby.cs" id="1_secjc"]
-[ext_resource type="PackedScene" uid="uid://bocp6ig7vo7fc" path="res://LobbyPlayer.tscn" id="2_v07ig"]
-[ext_resource type="PackedScene" uid="uid://dtf3sfkwlova1" path="res://Levels/Main.tscn" id="3_5ebu6"]
+[ext_resource type="Script" path="res://Scripts/Lobby.cs" id="1_ycbli"]
+[ext_resource type="PackedScene" uid="uid://bocp6ig7vo7fc" path="res://Scenes/LobbyPlayer.tscn" id="2_wi2tw"]
+[ext_resource type="PackedScene" uid="uid://ba0ou0k54so1m" path="res://Levels/Main.tscn" id="3_5ebu6"]
 
 [node name="Lobby" type="Node" node_paths=PackedStringArray("lobbyLabel")]
-script = ExtResource("1_secjc")
+script = ExtResource("1_ycbli")
 hostClientContainer = NodePath("CenterContainer/VBoxContainer/HostClientContainer")
 gameSettingsSelection = NodePath("CenterContainer/VBoxContainer/GameSettings")
 lobbyLabel = NodePath("CenterContainer/VBoxContainer/LobbyLabel")
-lobbyPlayer = ExtResource("2_v07ig")
+lobbyPlayer = ExtResource("2_wi2tw")
 gameLevel = ExtResource("3_5ebu6")
 startGameButton = NodePath("CenterContainer/VBoxContainer/StartGame")
 lobbyMenu = NodePath("CenterContainer")
@@ -58,7 +58,7 @@ text = "Start Game
 "
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("res://LobbyPlayer.tscn", "res://Levels/Main.tscn")
+_spawnable_scenes = PackedStringArray("res://Levels/Main.tscn")
 spawn_path = NodePath(".")
 
 [connection signal="pressed" from="CenterContainer/VBoxContainer/HostClientContainer/Host Button" to="." method="CreateServer"]

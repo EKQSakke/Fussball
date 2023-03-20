@@ -10,6 +10,7 @@ public partial class GameLevel : Node
     Node networked;
 
     Dictionary<int, PlayerTeam> playerTeamIds = new();
+    int[] goals = new int [2];
     PlayerPositioner playerPositioner = new();
     Lobby lobby;
 
@@ -93,7 +94,20 @@ public partial class GameLevel : Node
                 }
 
                 break;
+
+            case GameState.Goal:
+                if (currentTimer < 0)
+                {
+                    ResetLevel();
+                }
+
+                break;
         }
+    }
+
+    private void ResetLevel()
+    {
+        GD.Print($"Reset level");
     }
 
     bool AllPlayersAreReady() => playerTeamIds.Values.All(e => e.IsReady);
@@ -164,12 +178,17 @@ public partial class GameLevel : Node
         }
     }
 
+    public void GoalScored(int goalId)
+    {
+        goals[goalId]++;
+    }
+
     void SpawnTeam(long id)
     {
         GD.Print($"SpawnTeam {id}");
 
         var teamId = playerTeamIds.Count;
-        playerTeamIds.Add((int)id, new PlayerTeam());
+        playerTeamIds.Add((int) id, new PlayerTeam() {TeamId = teamId});
 
         for (int i = 0; i < Globals.PlayerPerTeamCount; i++)
         {

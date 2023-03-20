@@ -1,8 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://dtf3sfkwlova1"]
+[gd_scene load_steps=13 format=3 uid="uid://ba0ou0k54so1m"]
 
-[ext_resource type="PackedScene" uid="uid://bo6lwvfu24djc" path="res://Player.tscn" id="1_dmc8x"]
-[ext_resource type="Script" path="res://GameLevel.cs" id="1_rx4bq"]
-[ext_resource type="Script" path="res://SpawnPoint.cs" id="3_4b148"]
+[ext_resource type="Script" path="res://Scripts/GameLevel.cs" id="1_dbep8"]
+[ext_resource type="PackedScene" uid="uid://dkm1k2u84jac6" path="res://Scenes/Player.tscn" id="2_qu7c1"]
+[ext_resource type="Script" path="res://Scripts/SpawnPoint.cs" id="3_7sm3m"]
+[ext_resource type="Script" path="res://Scripts/Ball.cs" id="4_n5u6q"]
+[ext_resource type="PackedScene" uid="uid://ysvi6vvgpksc" path="res://Scenes/Goal.tscn" id="5_35akw"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pc2i4"]
 albedo_color = Color(0.258824, 0.388235, 0.298039, 1)
@@ -23,10 +25,13 @@ properties/1/path = NodePath(".:CurrentGameState")
 properties/1/spawn = true
 properties/1/sync = true
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_ggpba"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_j5yoj"]
+
 [node name="Node3D" type="Node3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.406122, 1.43853, -1.84689)
-script = ExtResource("1_rx4bq")
-player = ExtResource("1_dmc8x")
+script = ExtResource("1_dbep8")
+player = ExtResource("2_qu7c1")
 
 [node name="Floor" type="MeshInstance3D" parent="."]
 transform = Transform3D(2.93373, 0, 0, 0, 1, 0, 0, 0, 4.46777, 0, 0, 0)
@@ -39,55 +44,54 @@ mesh = SubResource("PlaneMesh_367c1")
 shape = SubResource("ConcavePolygonShape3D_1vyh1")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.802859, 0.596169, 0, -0.596169, 0.802859, 1.90735e-06, 9.20955, 9.81606)
+transform = Transform3D(1, 0, 0, 0, 0.802859, 0.596169, 0, -0.596169, 0.802859, 1.90735e-06, 11.8983, 12.2707)
 fov = 70.3125
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.392739, -0.755829, 0.523907, 1.77636e-15, 0.569681, 0.821866, -0.91965, -0.322778, 0.223736, 0.0183682, 9.20111, 9.81454)
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("res://Player.tscn")
 spawn_path = NodePath(".")
 
 [node name="SpawnPoints" type="Node" parent="."]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="SpawnPoints"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.34866, 0.0265913, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.01322, 0.0868578, -0.126954)
 mesh = SubResource("PlaneMesh_8lc3x")
 skeleton = NodePath("../..")
-script = ExtResource("3_4b148")
+script = ExtResource("3_7sm3m")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="SpawnPoints"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.3686, 0.0265913, -3.25211)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.03316, 0.0868578, -3.37906)
 mesh = SubResource("PlaneMesh_8lc3x")
 skeleton = NodePath("../..")
-script = ExtResource("3_4b148")
+script = ExtResource("3_7sm3m")
 
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="SpawnPoints"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.05828, 0.0265903, 4.04261)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.72284, 0.0868578, 3.91566)
 mesh = SubResource("PlaneMesh_8lc3x")
 skeleton = NodePath("../..")
-script = ExtResource("3_4b148")
+script = ExtResource("3_7sm3m")
 
 [node name="MeshInstance3D4" type="MeshInstance3D" parent="SpawnPoints"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.30173, 0.0265903, -3.11256)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.63717, 0.0868578, -3.23951)
 mesh = SubResource("PlaneMesh_8lc3x")
 skeleton = NodePath("../..")
-script = ExtResource("3_4b148")
+script = ExtResource("3_7sm3m")
 TeamId = 1
 
 [node name="MeshInstance3D5" type="MeshInstance3D" parent="SpawnPoints"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.65015, 0.0265894, 0.0518227)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.98559, 0.0868578, -0.0751343)
 mesh = SubResource("PlaneMesh_8lc3x")
 skeleton = NodePath("../..")
-script = ExtResource("3_4b148")
+script = ExtResource("3_7sm3m")
 TeamId = 1
 
 [node name="MeshInstance3D6" type="MeshInstance3D" parent="SpawnPoints"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.25781, 0.0265894, 3.74273)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.59325, 0.0868578, 3.61578)
 mesh = SubResource("PlaneMesh_8lc3x")
 skeleton = NodePath("../..")
-script = ExtResource("3_4b148")
+script = ExtResource("3_7sm3m")
 TeamId = 1
 
 [node name="Exit" type="Button" parent="."]
@@ -113,6 +117,25 @@ text = "GameState"
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_ijbur")
+
+[node name="Ball" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.459138, 0)
+can_sleep = false
+lock_rotation = true
+script = ExtResource("4_n5u6q")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ball"]
+shape = SubResource("SphereShape3D_ggpba")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ball/CollisionShape3D"]
+mesh = SubResource("SphereMesh_j5yoj")
+
+[node name="Goal" parent="." instance=ExtResource("5_35akw")]
+transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, -10.7001, 1.90735e-06, 0)
+
+[node name="Goal2" parent="." instance=ExtResource("5_35akw")]
+transform = Transform3D(-1, 0, -2.62268e-07, 0, 1, 0, 2.62268e-07, 0, -1, 12.2999, 1.90735e-06, 0)
+goalId = 1
 
 [connection signal="pressed" from="Exit" to="." method="EndLevel"]
 [connection signal="pressed" from="Ready" to="." method="SetTeamReady"]
