@@ -6,6 +6,8 @@ public partial class Player : RigidBody3D
     [Export]
     public long PlayerId;
 
+    public int teamId;
+
     Label idLabel;
     Camera3D cam;
 

@@ -10,7 +10,7 @@ public partial class GameLevel : Node
     Node networked;
 
     Dictionary<int, PlayerTeam> playerTeamIds = new();
-    int[] goals = new int [2];
+    int[] goals = new int[2];
     PlayerPositioner playerPositioner = new();
     Lobby lobby;
 
@@ -25,6 +25,7 @@ public partial class GameLevel : Node
     Label gameStateLabel;
 
     bool localReady;
+    Ball ball;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -35,6 +36,7 @@ public partial class GameLevel : Node
         lobby = this.GetNodeFromAll<Lobby>();
         networked = this.GetNodeFromChildren<MultiplayerSpawner>();
         playerPositioner.AddSpawnPoints(GetNode("SpawnPoints").GetNodesOfType<SpawnPoint>());
+        ball = this.GetNodeFromChildren<Ball>();
 
         if (Multiplayer.IsServer())
         {
@@ -107,7 +109,35 @@ public partial class GameLevel : Node
 
     private void ResetLevel()
     {
-        GD.Print($"Reset level");
+        if (!Multiplayer.IsServer())
+        {
+            return;
+        }
+
+        // reset ball
+        ball.GlobalPosition = new Vector3(0, 0.5f, 0);
+
+        // reset players
+        var team0 = 0;
+        var team1 = 1;
+
+        foreach (var item in players)
+        {
+            if (item.teamId == 0)
+            {
+                item.GlobalPosition = playerTeamIds[(int)item.PlayerId].SpawnPoints[team0];
+                team0++;
+            }
+            else
+            {
+                item.GlobalPosition = playerTeamIds[(int)item.PlayerId].SpawnPoints[team1];
+                team1++;
+            }
+        }
+
+        // reset timer
+        currentTimer = Rules.CommandTime;
+        CurrentGameState = GameState.Command;
     }
 
     bool AllPlayersAreReady() => playerTeamIds.Values.All(e => e.IsReady);
@@ -188,7 +218,8 @@ public partial class GameLevel : Node
         GD.Print($"SpawnTeam {id}");
 
         var teamId = playerTeamIds.Count;
-        playerTeamIds.Add((int) id, new PlayerTeam() {TeamId = teamId});
+        var team = new PlayerTeam() { TeamId = teamId, SpawnPoints = new() };
+        playerTeamIds.Add((int)id, team);
 
         for (int i = 0; i < Globals.PlayerPerTeamCount; i++)
         {
@@ -198,6 +229,8 @@ public partial class GameLevel : Node
             networked.AddChild(newPlayerNode, true);
             playerNode.GlobalPosition = playerPositioner.GetNextSpawnPointForTeam(teamId);
             players.Add(playerNode);
+            playerNode.teamId = teamId;
+            team.SpawnPoints.Add(playerNode.GlobalPosition);
         }
     }
 }

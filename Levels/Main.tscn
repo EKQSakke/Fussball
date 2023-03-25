@@ -1,9 +1,9 @@
-[gd_scene load_steps=13 format=3 uid="uid://ba0ou0k54so1m"]
+[gd_scene load_steps=11 format=3 uid="uid://ba0ou0k54so1m"]
 
 [ext_resource type="Script" path="res://Scripts/GameLevel.cs" id="1_dbep8"]
 [ext_resource type="PackedScene" uid="uid://dkm1k2u84jac6" path="res://Scenes/Player.tscn" id="2_qu7c1"]
 [ext_resource type="Script" path="res://Scripts/SpawnPoint.cs" id="3_7sm3m"]
-[ext_resource type="Script" path="res://Scripts/Ball.cs" id="4_n5u6q"]
+[ext_resource type="PackedScene" uid="uid://cdas3vf3vgpmp" path="res://Scenes/Ball.tscn" id="4_b13u8"]
 [ext_resource type="PackedScene" uid="uid://ysvi6vvgpksc" path="res://Scenes/Goal.tscn" id="5_35akw"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pc2i4"]
@@ -24,10 +24,6 @@ properties/0/sync = true
 properties/1/path = NodePath(".:CurrentGameState")
 properties/1/spawn = true
 properties/1/sync = true
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_ggpba"]
-
-[sub_resource type="SphereMesh" id="SphereMesh_j5yoj"]
 
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_dbep8")
@@ -51,6 +47,7 @@ fov = 70.3125
 transform = Transform3D(0.392739, -0.755829, 0.523907, 1.77636e-15, 0.569681, 0.821866, -0.91965, -0.322778, 0.223736, 0.0183682, 9.20111, 9.81454)
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://Scenes/Player.tscn")
 spawn_path = NodePath(".")
 
 [node name="SpawnPoints" type="Node" parent="."]
@@ -118,17 +115,7 @@ text = "GameState"
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_ijbur")
 
-[node name="Ball" type="RigidBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.459138, 0)
-can_sleep = false
-lock_rotation = true
-script = ExtResource("4_n5u6q")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Ball"]
-shape = SubResource("SphereShape3D_ggpba")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Ball/CollisionShape3D"]
-mesh = SubResource("SphereMesh_j5yoj")
+[node name="Ball" parent="." instance=ExtResource("4_b13u8")]
 
 [node name="Goal" parent="." instance=ExtResource("5_35akw")]
 transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, -10.7001, 1.90735e-06, 0)

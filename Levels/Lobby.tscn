@@ -58,7 +58,7 @@ text = "Start Game
 "
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("res://Levels/Main.tscn")
+_spawnable_scenes = PackedStringArray("res://Levels/Main.tscn", "res://Scenes/LobbyPlayer.tscn")
 spawn_path = NodePath(".")
 
 [connection signal="pressed" from="CenterContainer/VBoxContainer/HostClientContainer/Host Button" to="." method="CreateServer"]
