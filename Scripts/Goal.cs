@@ -17,8 +17,6 @@ public partial class Goal : Area3D
     {
 	    if (body is Ball ball)
 	    {
-			ball.GlobalPosition = new Vector3(0, 0.5f, 0);
-			ball.LinearVelocity = new Vector3(0, 0, 0);
 			level.GoalScored(goalId);
 	    }
     }

@@ -116,23 +116,25 @@ public partial class GameLevel : Node
 
         // reset ball
         ball.GlobalPosition = new Vector3(0, 0.5f, 0);
+        ball.LinearVelocity = Vector3.Zero;
 
         // reset players
-        var team0 = 0;
-        var team1 = 1;
+        var team0counter = 0;
+        var team1Counter = 0;
 
         foreach (var item in players)
         {
             if (item.teamId == 0)
             {
-                item.GlobalPosition = playerTeamIds[(int)item.PlayerId].SpawnPoints[team0];
-                team0++;
+                item.GlobalPosition = playerTeamIds[(int)item.PlayerId].SpawnPoints[team0counter];
+                team0counter++;
             }
             else
             {
-                item.GlobalPosition = playerTeamIds[(int)item.PlayerId].SpawnPoints[team1];
-                team1++;
+                item.GlobalPosition = playerTeamIds[(int)item.PlayerId].SpawnPoints[team1Counter];
+                team1Counter++;
             }
+            item.LinearVelocity = Vector3.Zero;
         }
 
         // reset timer
@@ -210,6 +212,12 @@ public partial class GameLevel : Node
 
     public void GoalScored(int goalId)
     {
+        if (!Multiplayer.IsServer())
+        {
+            return;
+        }
+        GD.Print($"Goal scored to: {goalId}");
+        CurrentGameState = GameState.Goal;
         goals[goalId]++;
     }
 
