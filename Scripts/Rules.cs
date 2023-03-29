@@ -1,6 +1,6 @@
 public static class Rules
 {
-    public const double ActTime = 3;
-    public const double CommandTime = 30;
-    public const double GoalTime = 15;
+    public const double ActTime = 1.5;
+    public const double CommandTime = 10;
+    public const double GoalTime = 5;
 }

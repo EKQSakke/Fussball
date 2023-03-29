@@ -24,15 +24,17 @@
 	- ✔️Ready checks
 	- ✔️Timers
 - ✔️Act time (commands input are applied, not able to add more commands)
-- Goals:
-	- Score is counted
-	- Players reset position
-	- Ball reset
-- Game loop:
-	- 3 goals reset game
-	- Turn limit
+- ✔️Goals:
+	- ✔️Score is counted
+	- ✔️Players reset position
+	- ✔️Ball reset
+- ✔️Game loop:
+	- ✔️3 goals reset game
+	- ✔️Turn limit
 
-
+### Networking:
+- Server not a player
+- Headless server
 
 ### Presentation:
 - Graphics for capsule (2 teams)

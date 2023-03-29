@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://dkm1k2u84jac6"]
+[gd_scene load_steps=7 format=3 uid="uid://dkm1k2u84jac6"]
 
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_3jgvm"]
 
@@ -7,7 +7,10 @@ bounce = 0.4
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_6yuyw"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4fo52"]
+
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_adsoo"]
+material = SubResource("StandardMaterial3D_4fo52")
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_43jpd"]
 properties/0/path = NodePath(".:position")

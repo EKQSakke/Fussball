@@ -10,7 +10,6 @@ public partial class GameLevel : Node
     Node networked;
 
     Dictionary<int, PlayerTeam> playerTeamIds = new();
-    int[] goals = new int[2];
     PlayerPositioner playerPositioner = new();
     Lobby lobby;
 
@@ -27,6 +26,13 @@ public partial class GameLevel : Node
     bool localReady;
     Ball ball;
 
+    GameScore score;
+
+    GameSettings settings;
+
+    int rounds;
+
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
@@ -37,6 +43,8 @@ public partial class GameLevel : Node
         networked = this.GetNodeFromChildren<MultiplayerSpawner>();
         playerPositioner.AddSpawnPoints(GetNode("SpawnPoints").GetNodesOfType<SpawnPoint>());
         ball = this.GetNodeFromChildren<Ball>();
+        settings = lobby.GameSettings;
+        score = new GameScore(settings.GoalLimit);
 
         if (Multiplayer.IsServer())
         {
@@ -81,6 +89,11 @@ public partial class GameLevel : Node
             case GameState.Act:
                 if (currentTimer < 0)
                 {
+                    if (rounds > settings.RoundLimit)
+                    {
+                        EndGameWithWinner();
+                        return;
+                    }
                     currentTimer = Rules.CommandTime;
                     CurrentGameState = GameState.Command;
                 }
@@ -100,11 +113,24 @@ public partial class GameLevel : Node
             case GameState.Goal:
                 if (currentTimer < 0)
                 {
-                    ResetLevel();
+                    if (!score.IsGameOver())
+                    {
+                        ResetLevel();
+                        return;
+                    }
+
+                    EndGameWithWinner();
                 }
 
                 break;
         }
+    }
+
+    private void EndGameWithWinner()
+    {
+        var winner = score.GetWinner();
+        GD.Print($"Team {winner} won!");
+        EndLevel();
     }
 
     private void ResetLevel()
@@ -218,7 +244,8 @@ public partial class GameLevel : Node
         }
         GD.Print($"Goal scored to: {goalId}");
         CurrentGameState = GameState.Goal;
-        goals[goalId]++;
+
+        score.GoalScored(goalId);
     }
 
     void SpawnTeam(long id)
@@ -238,6 +265,7 @@ public partial class GameLevel : Node
             playerNode.GlobalPosition = playerPositioner.GetNextSpawnPointForTeam(teamId);
             players.Add(playerNode);
             playerNode.teamId = teamId;
+            playerNode.SetColorToMesh(lobby.GetTeamColor(id));
             team.SpawnPoints.Add(playerNode.GlobalPosition);
         }
     }

@@ -119,10 +119,10 @@ replication_config = SubResource("SceneReplicationConfig_ijbur")
 
 [node name="Goal" parent="." instance=ExtResource("5_35akw")]
 transform = Transform3D(1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, -10.7001, 1.90735e-06, 0)
+goalId = 1
 
 [node name="Goal2" parent="." instance=ExtResource("5_35akw")]
 transform = Transform3D(-1, 0, -2.62268e-07, 0, 1, 0, 2.62268e-07, 0, -1, 12.2999, 1.90735e-06, 0)
-goalId = 1
 
 [connection signal="pressed" from="Exit" to="." method="EndLevel"]
 [connection signal="pressed" from="Ready" to="." method="SetTeamReady"]

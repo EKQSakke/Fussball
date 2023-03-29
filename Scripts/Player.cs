@@ -1,3 +1,4 @@
+using System.Linq;
 using Godot;
 using Nidot;
 
@@ -24,11 +25,6 @@ public partial class Player : RigidBody3D
         cam = this.GetNodeFromAll<Camera3D>();
     }
 
-    public void SetId(long id)
-    {
-        PlayerId = id;
-    }
-
     public override void _Process(double delta)
     {
         idLabel.GlobalPosition = cam.UnprojectPosition(GlobalPosition);
@@ -38,6 +34,17 @@ public partial class Player : RigidBody3D
     {
         ApplyCentralImpulse(LaunchCommand);
         LaunchCommand = new Vector3();
+    }
+
+    public void SetColorToMesh(Color color)
+    {
+        var mesh = this.GetNode<MeshInstance3D>("CollisionShape3D/PlayerMesh").Mesh;
+        if (mesh != null)
+        {
+            var material = mesh.SurfaceGetMaterial(0);
+            material.Set("albedo_color", color);
+            mesh.SurfaceSetMaterial(0, material);
+        }
     }
 
 }

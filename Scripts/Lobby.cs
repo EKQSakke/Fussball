@@ -1,4 +1,5 @@
-using System.Collections.Generic;
+using System;
+using System.Linq;
 using Godot;
 using Nidot;
 
@@ -6,8 +7,6 @@ public partial class Lobby : Node
 {
     const int PORT = 9999;
     const string ADDRESS = "127.0.0.1";
-
-    List<long> teamIds = new();
 
     [Export]
     NodePath hostClientContainer;
@@ -29,14 +28,14 @@ public partial class Lobby : Node
 
     MultiplayerSpawner multiplayerSpawner;
 
-    GameSettings gameSettings;
-
     Control gameMenu;
+
+    internal GameSettings GameSettings { get; set; }
 
     public override void _Ready()
     {
         multiplayerSpawner = this.GetChildOfType<MultiplayerSpawner>();
-        gameSettings = new GameSettings();
+        GameSettings = new GameSettings();
         gameMenu = GetNode<Control>(lobbyMenu);
     }
 
@@ -80,7 +79,7 @@ public partial class Lobby : Node
 
     public void SelectGameSettings(int id)
     {
-        gameSettings = new GameSettings((Game)id);
+        GameSettings = new GameSettings((Game)id);
     }
 
     public void StartGame()
@@ -106,8 +105,11 @@ public partial class Lobby : Node
     {
         GD.Print($"Connected: {id}");
         var newPlayerNode = lobbyPlayer.Instantiate();
-        var playerNode = newPlayerNode as LobbyPlayer ?? throw new System.Exception("playerNode must be a LobbyPlayer");
+        var playerNode = newPlayerNode as LobbyPlayer ?? throw new Exception("playerNode must be a LobbyPlayer");
         playerNode.PlayerId = id;
+        playerNode.TeamColor = id == 1 ? new Color(0, 1, 0) : new Color(1, 0, 0);
         multiplayerSpawner.AddChild(playerNode, true);
     }
+
+    public Color GetTeamColor(long id) => multiplayerSpawner.GetNodesOfType<LobbyPlayer>().FirstOrDefault(x => x.PlayerId == id)?.TeamColor ?? throw new Exception("Kys");
 }
