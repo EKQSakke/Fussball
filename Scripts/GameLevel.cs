@@ -7,31 +7,21 @@ using Nidot;
 public partial class GameLevel : Node
 {
     [Export] PackedScene player;
-    Node networked;
+    [Export] double currentTimer;
+    [Export] public GameState CurrentGameState;
 
+    Node networked;
     Dictionary<int, PlayerTeam> playerTeamIds = new();
     PlayerPositioner playerPositioner = new();
     Lobby lobby;
-
     List<Player> players = new();
-
-    [Export] double currentTimer;
-
-    [Export] public GameState CurrentGameState;
-
     GameState lastState;
-
     Label gameStateLabel;
-
-    bool localReady;
     Ball ball;
-
     GameScore score;
-
     GameSettings settings;
-
     int rounds;
-
+    bool localReady;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()

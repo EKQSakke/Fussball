@@ -1,7 +1,6 @@
 internal class GameSettings
 {
     public int RoundLimit { get; set; }
-
     public int GoalLimit { get; set; }
 
     // Default

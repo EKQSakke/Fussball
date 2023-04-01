@@ -2,7 +2,6 @@ internal class GameScore
 {
     public int Team0Score { get; set; }
     public int Team1Score { get; set; }
-
     public int ScoreTarget { get; set; }
 
     public GameScore(int scoreTarget)

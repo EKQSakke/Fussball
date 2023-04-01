@@ -4,17 +4,13 @@ using Nidot;
 
 public partial class Player : RigidBody3D
 {
-    [Export]
-    public long PlayerId;
+    [Export] public long PlayerId;
+    [Export] public Vector3 LaunchCommand;
 
     public int teamId;
 
     Label idLabel;
     Camera3D cam;
-
-    [Export]
-    public Vector3 LaunchCommand;
-
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()

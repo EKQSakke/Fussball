@@ -7,27 +7,15 @@ public partial class Lobby : Node
 {
     const int PORT = 9999;
     const string ADDRESS = "127.0.0.1";
-
-    [Export]
-    NodePath hostClientContainer;
-
-    [Export]
-    NodePath gameSettingsSelection;
-
-    [Export]
-    Label lobbyLabel;
-
-    [Export]
-    PackedScene lobbyPlayer;
-
+    [Export] NodePath hostClientContainer;
+    [Export] NodePath gameSettingsSelection;
+    [Export] Label lobbyLabel;
+    [Export] PackedScene lobbyPlayer;
     [Export] PackedScene gameLevel;
-
     [Export] NodePath startGameButton;
-
     [Export] NodePath lobbyMenu;
 
     MultiplayerSpawner multiplayerSpawner;
-
     Control gameMenu;
 
     internal GameSettings GameSettings { get; set; }
