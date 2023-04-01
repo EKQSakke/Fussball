@@ -42,3 +42,8 @@
 - Graphics for arena
 - UI elements
 - Menus
+
+
+
+## Notes:
+- Run headless with "Fussball.console.exe --headless"

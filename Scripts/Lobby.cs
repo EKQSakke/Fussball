@@ -22,6 +22,7 @@ public partial class Lobby : Node
 
     public override void _Ready()
     {
+        GD.Print($"{nameof(Lobby)} ready");
         multiplayerSpawner = this.GetChildOfType<MultiplayerSpawner>();
         GameSettings = new GameSettings();
         gameMenu = GetNode<Control>(lobbyMenu);
@@ -42,6 +43,7 @@ public partial class Lobby : Node
         }
     }
 
+    // Called from UI -- should be called when starting headless server, how to?
     public void CreateServer()
     {
         var peer = new ENetMultiplayerPeer();
@@ -57,6 +59,7 @@ public partial class Lobby : Node
         GetNode<Button>(startGameButton).Show();
     }
 
+    // Called from UI
     public void JoinServer()
     {
         var peer = new ENetMultiplayerPeer();
