@@ -195,13 +195,11 @@ public partial class GameLevel : Node
     {
         if (Multiplayer.IsServer())
         {
-            playerTeamIds[Multiplayer.GetUniqueId()].IsReady = true;
+            return;
         }
-        else
-        {
-            localReady = true;
-            Rpc("SetTeamReady", Multiplayer.GetUniqueId());
-        }
+        
+        localReady = true;
+        Rpc("SetTeamReady", Multiplayer.GetUniqueId());
     }
 
     [Rpc(MultiplayerApi.RpcMode.AnyPeer)]
@@ -213,17 +211,7 @@ public partial class GameLevel : Node
         }
     }
 
-    public bool IsTeamReady()
-    {
-        if (Multiplayer.IsServer())
-        {
-            return playerTeamIds[Multiplayer.GetUniqueId()].IsReady;
-        }
-        else
-        {
-            return localReady;
-        }
-    }
+    public bool IsTeamReady() => Multiplayer.IsServer() || localReady;
 
     public void GoalScored(int goalId)
     {

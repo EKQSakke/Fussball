@@ -34,7 +34,7 @@
 
 ### Networking:
 - ✔️Server not a player
-- Connect with IP
+- Conect with IP
 - Headless server
 
 ### Presentation:
