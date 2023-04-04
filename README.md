@@ -33,7 +33,7 @@
 	- ✔️Turn limit
 
 ### Networking:
-- Server not a player
+- ✔️Server not a player
 - Connect with IP
 - Headless server
 

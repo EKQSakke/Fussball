@@ -50,7 +50,6 @@ public partial class Lobby : Node
         peer.PeerConnected += OnPlayerConnected;
         peer.CreateServer(PORT);
         Multiplayer.MultiplayerPeer = peer;
-        OnPlayerConnected(1);
         GetNode(hostClientContainer).QueueFree();
 
         var gameSettingsOptions = GetNode<ItemList>(gameSettingsSelection);

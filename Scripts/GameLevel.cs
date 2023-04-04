@@ -39,7 +39,6 @@ public partial class GameLevel : Node
         if (Multiplayer.IsServer())
         {
             // Server team
-            SpawnTeam(1);
             foreach (var item in Multiplayer.GetPeers())
             {
                 SpawnTeam(item);
@@ -255,7 +254,7 @@ public partial class GameLevel : Node
             playerNode.GlobalPosition = playerPositioner.GetNextSpawnPointForTeam(teamId);
             players.Add(playerNode);
             playerNode.teamId = teamId;
-            playerNode.SetColorToMesh(lobby.GetTeamColor(id));
+            //playerNode.SetColorToMesh(lobby.GetTeamColor(id));
             team.SpawnPoints.Add(playerNode.GlobalPosition);
         }
     }
