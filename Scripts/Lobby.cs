@@ -97,9 +97,11 @@ public partial class Lobby : Node
         var newPlayerNode = lobbyPlayer.Instantiate();
         var playerNode = newPlayerNode as LobbyPlayer ?? throw new Exception("playerNode must be a LobbyPlayer");
         playerNode.PlayerId = id;
-        playerNode.TeamColor = id == 1 ? new Color(0, 1, 0) : new Color(1, 0, 0);
+        var isFirstTeam = Multiplayer.GetPeers().Length == 1;
+        GD.Print($"{nameof(isFirstTeam)}: {isFirstTeam}");
+        playerNode.TeamColor = isFirstTeam ? new Color(0, 1, 0) : new Color(1, 0, 0);
         multiplayerSpawner.AddChild(playerNode, true);
     }
 
-    public Color GetTeamColor(long id) => multiplayerSpawner.GetNodesOfType<LobbyPlayer>().FirstOrDefault(x => x.PlayerId == id)?.TeamColor ?? throw new Exception("Kys");
+    public Color GetTeamColor(long id) => multiplayerSpawner.GetNodesOfType<LobbyPlayer>().FirstOrDefault(x => x.PlayerId == id)?.TeamColor ?? throw new Exception($"No team with id {id} found");
 }

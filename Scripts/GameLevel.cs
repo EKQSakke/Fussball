@@ -242,7 +242,8 @@ public partial class GameLevel : Node
             playerNode.GlobalPosition = playerPositioner.GetNextSpawnPointForTeam(teamId);
             players.Add(playerNode);
             playerNode.teamId = teamId;
-            //playerNode.SetColorToMesh(lobby.GetTeamColor(id));
+            GD.Print($"{Multiplayer.GetUniqueId()} - {id} - {lobby.GetTeamColor(id)}");
+            playerNode.SetColorToMesh(lobby.GetTeamColor(id));
             team.SpawnPoints.Add(playerNode.GlobalPosition);
         }
     }
