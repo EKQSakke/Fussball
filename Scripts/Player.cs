@@ -1,3 +1,5 @@
+using System;
+using System.Runtime.ExceptionServices;
 using Godot;
 using Nidot;
 
@@ -21,6 +23,7 @@ public partial class Player : RigidBody3D
         idLabel.Text = PlayerId.ToString();
         cam = this.GetNodeFromAll<Camera3D>();
         GD.Print($"color: {PlayerId} {lobby.GetTeamColor(PlayerId)}");
+
         SetColorToMesh(lobby.GetTeamColor(PlayerId));
     }
 
@@ -40,9 +43,9 @@ public partial class Player : RigidBody3D
         var mesh = this.GetNode<MeshInstance3D>("CollisionShape3D/PlayerMesh");
         if (mesh != null)
         {
-            var material = mesh.Mesh.SurfaceGetMaterial(0).Duplicate() as Material;
+            var material = new StandardMaterial3D();
             material.Set("albedo_color", color);
-            mesh.Mesh.SurfaceSetMaterial(0, material);
+            mesh.SetSurfaceOverrideMaterial(0, material);
         }
     }
 
