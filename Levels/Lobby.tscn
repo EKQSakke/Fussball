@@ -26,8 +26,6 @@ layout_mode = 2
 
 [node name="HostClientContainer" type="VBoxContainer" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 3
 
 [node name="Host Button" type="Button" parent="CenterContainer/VBoxContainer/HostClientContainer"]
 layout_mode = 2
@@ -37,6 +35,15 @@ text = "Host"
 layout_mode = 2
 text = "Client
 "
+
+[node name="ConnectAddress" type="TextEdit" parent="CenterContainer/VBoxContainer/HostClientContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.0
+text = "127.0.0.1"
+scroll_fit_content_height = true
+caret_type = 1
+caret_blink = true
 
 [node name="LobbyLabel" type="Label" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2

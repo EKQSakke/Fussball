@@ -17,6 +17,7 @@ public partial class Lobby : Node
 
     MultiplayerSpawner multiplayerSpawner;
     Control gameMenu;
+    TextEdit connectAddress;
 
     internal GameSettings GameSettings { get; set; }
 
@@ -24,6 +25,7 @@ public partial class Lobby : Node
     {
         GD.Print($"{nameof(Lobby)} ready");
         multiplayerSpawner = this.GetChildOfType<MultiplayerSpawner>();
+        connectAddress = this.GetNodeFromChildren<TextEdit>();
         GameSettings = new GameSettings();
         gameMenu = GetNode<Control>(lobbyMenu);
     }
@@ -61,8 +63,9 @@ public partial class Lobby : Node
     // Called from UI
     public void JoinServer()
     {
+        var address = string.IsNullOrEmpty(connectAddress?.Text) ? connectAddress.Text : ADDRESS;
         var peer = new ENetMultiplayerPeer();
-        _ = peer.CreateClient(ADDRESS, PORT);
+        _ = peer.CreateClient(address, PORT);
         Multiplayer.MultiplayerPeer = peer;
         GetNode(hostClientContainer).QueueFree();
     }

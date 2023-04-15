@@ -11,10 +11,10 @@ public partial class GameLevel : Node
     [Export] public GameState CurrentGameState;
 
     Node networked;
-    Dictionary<int, PlayerTeam> playerTeamIds = new();
-    PlayerPositioner playerPositioner = new();
+    readonly Dictionary<int, PlayerTeam> playerTeamIds = new();
+    readonly PlayerPositioner playerPositioner = new();
     Lobby lobby;
-    List<Player> players = new();
+    readonly List<Player> players = new();
     GameState lastState;
     Label gameStateLabel;
     Ball ball;
@@ -62,7 +62,7 @@ public partial class GameLevel : Node
             localReady = false;
         }
 
-        gameStateLabel.Text = $"{currentTimer.ToString("F2")}\n{CurrentGameState.ToString()}\nTeam:{IsTeamReady()}\n";
+        gameStateLabel.Text = $"{currentTimer:F2}\n{CurrentGameState}\nTeam:{IsTeamReady()}\n";
         if (Multiplayer.IsServer())
         {
             gameStateLabel.Text += $"All:{AllPlayersAreReady()}";
