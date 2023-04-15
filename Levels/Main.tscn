@@ -40,8 +40,8 @@ mesh = SubResource("PlaneMesh_367c1")
 shape = SubResource("ConcavePolygonShape3D_1vyh1")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.802859, 0.596169, 0, -0.596169, 0.802859, 1.90735e-06, 11.8983, 12.2707)
-fov = 70.3125
+transform = Transform3D(1, 0, 0, 0, 0.668352, 0.743845, 0, -0.743845, 0.668352, 1.90735e-06, 23.8418, 21.9492)
+fov = 40.0
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.392739, -0.755829, 0.523907, 1.77636e-15, 0.569681, 0.821866, -0.91965, -0.322778, 0.223736, 0.0183682, 9.20111, 9.81454)
