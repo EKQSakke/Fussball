@@ -18,6 +18,7 @@ public partial class Lobby : Node
     MultiplayerSpawner multiplayerSpawner;
     Control gameMenu;
     TextEdit connectAddress;
+    bool gameStarted;
 
     internal GameSettings GameSettings { get; set; }
 
@@ -28,10 +29,25 @@ public partial class Lobby : Node
         connectAddress = this.GetNodeFromChildren<TextEdit>();
         GameSettings = new GameSettings();
         gameMenu = GetNode<Control>(lobbyMenu);
+
+        foreach (var item in OS.GetCmdlineArgs())
+        {
+            GD.Print($"arg: {item}");
+            if (item.Equals("host"))
+            {
+                CreateServer();
+            }
+        }
     }
 
     public override void _Process(double delta)
     {
+        if (!gameStarted && Multiplayer.IsServer() && Multiplayer.GetPeers().Length > 1)
+        {
+            gameStarted = true;
+            StartGame();
+        }
+
         if (gameMenu.Visible)
         {
             lobbyLabel.Text = "Players: \n";
@@ -63,16 +79,19 @@ public partial class Lobby : Node
     // Called from UI
     public void JoinServer()
     {
-        var address = string.IsNullOrEmpty(connectAddress?.Text) ? connectAddress.Text : ADDRESS;
+        var address = !string.IsNullOrEmpty(connectAddress?.Text) ? connectAddress.Text : ADDRESS;
         var peer = new ENetMultiplayerPeer();
-        _ = peer.CreateClient(address, PORT);
+        GD.Print($"text: {connectAddress.Text}, address: {address}");
+        var error = peer.CreateClient(address, PORT);
+        GD.Print($"{error}");
+        peer.PeerConnected += delegate(long id) { GD.Print($"joined: {id}"); };
         Multiplayer.MultiplayerPeer = peer;
         GetNode(hostClientContainer).QueueFree();
     }
 
     public void SelectGameSettings(int id)
     {
-        GameSettings = new GameSettings((Game)id);
+        GameSettings = new GameSettings((Game) id);
     }
 
     public void StartGame()
@@ -106,5 +125,7 @@ public partial class Lobby : Node
         multiplayerSpawner.AddChild(playerNode, true);
     }
 
-    public Color GetTeamColor(long id) => multiplayerSpawner.GetNodesOfType<LobbyPlayer>().FirstOrDefault(x => x.PlayerId == id)?.TeamColor ?? throw new Exception($"No team with id {id} found");
+    public Color GetTeamColor(long id) =>
+        multiplayerSpawner.GetNodesOfType<LobbyPlayer>().FirstOrDefault(x => x.PlayerId == id)?.TeamColor ??
+        throw new Exception($"No team with id {id} found");
 }

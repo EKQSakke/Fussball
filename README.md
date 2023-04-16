@@ -35,15 +35,21 @@
 ### Networking:
 - ✔️Server not a player
 - ✔️Connect with IP
-- Headless server
+- ✔️Headless server
+- ✔️Connect to headless server on digitalocean
 
 ### Presentation:
+- Menus
+- UI elements
 - Graphics for capsule (2 teams)
 - Graphics for arena
-- UI elements
-- Menus
 
 
 
 ## Notes:
-- Run headless with "Fussball.console.exe --headless"
+- Run headless host with "Fussball.console.exe --headless host"
+
+## Repos:
+- Fussball: Godot game repo (this)
+- FussballBuild: Only holds Linux build folder, used by VPS to get latest build
+- FussballRunner: Go app to start servers on demand
